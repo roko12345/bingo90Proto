@@ -95,7 +95,7 @@ public class Strip {
             int randomTicketToFillWithTens = Utils.getRandomNumber(0, 5);
             int positionInTheList = Utils.getRandomNumber(0, numbersRemainingInList - 1);
 
-            List<Integer> freePositionsInColumn = tickets[randomTicketToFillWithTens].freePositionsInColumn(0);
+            List<Integer> freePositionsInColumn = tickets[randomTicketToFillWithTens].freePositionsInColumn(columnNumber);
             if (freePositionsInColumn.isEmpty()) {
                 // Take new ticket and fill the column there
                 this.fillSecondToFifthColumnWithRemainingNumbers(twentiesToFiftiesRemaining, numbersRemainingInList, columnNumber);
