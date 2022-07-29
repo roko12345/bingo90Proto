@@ -2,10 +2,10 @@ package com.kraljevic.bingo;
 import java.util.Arrays;
 
 public class Row {
-    private int rowFields [];
+    private Integer[] rowFields ;
     
     public Row() {
-        rowFields = new int[9];
+        rowFields = new Integer[9];
         Arrays.setAll(rowFields, p -> 0);
     }
 
@@ -13,7 +13,7 @@ public class Row {
         this.rowFields[position] = value;
     }
     
-    public int[] getRowFields(){
+    public Integer[] getRowFields(){
         return rowFields;
     }
 }
