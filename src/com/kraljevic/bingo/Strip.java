@@ -191,7 +191,6 @@ public class Strip {
                     } catch (Exception e) {
                         // If we end up here, it means that i=-1 , and that the remaining number could not be fixed along the way even 
                         // in the first ticket. We need to seed it from the begining and repeat the proccess.
-                        System.out.println("Exception");
                         createTheStripAgain();
                      return;   
                     }
