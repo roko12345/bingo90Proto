@@ -95,7 +95,7 @@ public class BingoStripTest {
     }
 
     @Test
-    public void tousandTimescheckBothRulesToTicketValidityTest() {
+    public void tousandTimescheckAllRulesToTicketValidityTest() {
         for (int i = 0; i < 10000; i++) {
             strip = new Strip();
             checkAllRulesToTicketValidityTest();

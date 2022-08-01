@@ -18,6 +18,7 @@ public class Strip {
         initialFillRemainingNumbersMap();
         fillAllColumnsEachTicketWithOneNumber();
         fillAllTicketsWithRemainingNumbers();
+        sortStripColumnsAndFillTicket();
     }
 
     private void initialFillRemainingNumbersMap() {
@@ -120,7 +121,8 @@ public class Strip {
                             // by removing item from "filledWithSecondIteration" we lower the count of that list so we have one less
                             // to check if the next occurrance comes. We also put empty space in place of that value in the row array
                             tickets[i].getRows()[row].filledWithSecondIteration.remove(valuesFilledInPreviousTry.size() - 1);
-                            tickets[i].getRows()[row].getRowFields()[j] = 0;
+                            
+                            tickets[i].setTicketFieldValue(0, j, row);
 
                             // add the number which we removed from this row to the map with remaining numbers
                             remainingNumbers.get(j).add(lastFilledElement);
@@ -200,6 +202,58 @@ public class Strip {
             Row[] ticketRows = tickets[i].getRows();
             for (int j = 0; j < ticketRows.length; j++) {
                 System.out.println(Arrays.toString(ticketRows[j].getRowFields()));
+            }
+        }
+    }
+
+    private void sortStripColumnsAndFillTicket() {
+        for (int i = 0; i < tickets.length; i++) {
+            for (int j = 0; j < tickets[i].getColumns().length; j++) {
+                Integer[] column = Arrays.copyOf(tickets[i].getColumns()[j].getColumnFields(), 3);
+
+                var numberOfZerosInColumn = Arrays.asList(column).stream().filter(v -> v == 0).count();
+                // If Column has 2 zeros no sorting needed
+                // If Column has 1 zero, leave the zero intact, sort other 2 numbers
+                // If Column has 0 zeros, simple sort all
+                if (numberOfZerosInColumn == 0) {
+                    Arrays.sort(column);
+                    for (int k = 0; k < 3; k++) {
+                        tickets[i].setTicketFieldValue(column[k], j, k);
+                    }
+                } else if (numberOfZerosInColumn == 1) {
+                    int positionOfZero = 0;
+                    for (int l = 0; l < 3; l++) {
+                        if (column[l] == 0) {
+                            positionOfZero = l;
+                        }
+                    }
+
+                    // Move array element with 0 to end
+                    int temp = column[positionOfZero];
+                    column[positionOfZero] = column[2];
+                    column[2] = temp;
+
+                    // Sort all elements except last (zero remains unsorted)
+                    Arrays.sort(column, 0, 2);
+
+                    // Store last element (originally Zero)
+                    int last = column[2];
+
+                    // Move all elements from position of 0 to one
+                    // position ahead.
+                    for (int m = 2; m > positionOfZero; m--)
+                        column[m] = column[m - 1];
+
+                    // Restore element in Zeros position
+                    column[positionOfZero] = last;
+
+
+                    for (int k = 0; k < 3; k++) {
+                        if (column[k] != 0) {
+                            tickets[i].setTicketFieldValue(column[k], j, k);
+                        }
+                    }
+                }
             }
         }
     }
