@@ -63,4 +63,16 @@ public class Ticket {
         return freePositions;
     }
 
+    // free positions in row are those with value 0
+    public List<Integer> freePositionsInRow(int rowNumber) {
+        List<Integer> freePositions = new ArrayList<>();
+        var allRowFields = rows[rowNumber].getRowFields();
+        for(int i=0; i < 9; i++) {
+            if(allRowFields[i] == 0) {
+                freePositions.add(i);
+            }
+        }
+        return freePositions;
+    }
+
 }

@@ -32,6 +32,8 @@ public class Main {
             }
             System.out.println();
         }
+        
+        
 
         /*
         for(int i=0; i<10000; i++) {
@@ -39,14 +41,17 @@ public class Main {
             Strip strip = new Strip();
             Ticket[] tickets = strip.getSeededStrip();
         }
+*/
+         
 
-         */
-
+        
+        /*
+        Checking is row full part of the code
         for(int i=0; i < tickets.length; i++){ {
             for(int j=0; j < 3; j++)
             System.out.println(tickets[i].isRowFull(j));
         }}
-        
+        */
         
         long end1 = System.nanoTime();
         System.out.println("Elapsed Time in nano seconds: "+ (end1-start1));
