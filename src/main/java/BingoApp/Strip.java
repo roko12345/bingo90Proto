@@ -48,11 +48,11 @@ public class Strip {
             // iterate through tickets from 1 to 6
             for (int i = 0; i < Utils.TICKETS_PER_STRIP; i++) {
                 int positionInTheList = Utils.getRandomNumber(0, column.getValue().size());
-                int columnPositionToInsert = Utils.getRandomNumber(0, 3);
+                int columnPositionToInsert = Utils.getRandomNumber(0, Utils.ROWS_PER_TICKET);
 
                 // if the row already has 5 numbers (max) then insert the value into column position in one of other two rows
                 while (tickets[i].isRowFull(columnPositionToInsert)) {
-                    columnPositionToInsert = Utils.getRandomNumber(0, 3);
+                    columnPositionToInsert = Utils.getRandomNumber(0, Utils.ROWS_PER_TICKET);
                 }
 
                 tickets[i].setTicketFieldValue(column.getValue().get(positionInTheList), column.getKey(), columnPositionToInsert);
