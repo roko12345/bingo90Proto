@@ -38,7 +38,7 @@ public class Main {
 
         // Print the strips to the console
         for (int i = 0; i < numberOfStrips; i++) {
-            Ticket[] tickets = strips[i].getTickets();
+            Ticket[] tickets = strips[i].getSeededStrip();
             out.print("Execution: " + i + "\n");
 
             for (int j = 0; j < Utils.TICKETS_PER_STRIP; j++) {

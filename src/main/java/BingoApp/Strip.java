@@ -106,7 +106,8 @@ public class Strip {
                     for (Integer rowPosition : remainingRowPositions) {
                         if (!remainingNumbers.get(rowPosition).isEmpty()) {
                             // add one map number to empty column in this row. We will remove "lastFilledElement" from the row and add it to the map
-                            tickets[i].getRows()[row].getRowFields()[rowPosition] = remainingNumbers.get(rowPosition).get(0);
+                            //tickets[i].getRows()[row].getRowFields()[rowPosition] = remainingNumbers.get(rowPosition).get(0);
+                            tickets[i].setTicketFieldValue(remainingNumbers.get(rowPosition).get(0),rowPosition,row);
                             remainingNumbers.get(rowPosition).remove(0);
                             break;
                         }
@@ -195,9 +196,9 @@ public class Strip {
     }
 
     private void sortStripColumnsAndFillTicket() {
-        for (int i = 0; i < tickets.length; i++) {
+        for (int i = 0; i < Utils.TICKETS_PER_STRIP; i++) {
             for (int j = 0; j < Utils.COLUMNS_PER_TICKET; j++) {
-                Integer[] column = tickets[i].getColumns()[j].getColumnFields();
+                Integer[] column = Arrays.copyOf(tickets[i].getColumns()[j].getColumnFields(), 3);
 
                 long numberOfZerosInColumn = Arrays.asList(column).stream().filter(v -> v == 0).count();
                 // If Column has 2 zeros no sorting needed
@@ -213,6 +214,7 @@ public class Strip {
                     for (int l = 0; l < Utils.ROWS_PER_TICKET; l++) {
                         if (column[l] == 0) {
                             positionOfZero = l;
+                            break;
                         }
                     }
 
@@ -234,19 +236,12 @@ public class Strip {
 
                     // Restore element in Zeros position
                     column[positionOfZero] = last;
-
-
+                    
                     for (int k = 0; k < Utils.ROWS_PER_TICKET; k++) {
-                        if (column[k] != 0) {
-                            tickets[i].setTicketFieldValue(column[k], j, k);
-                        }
+                        tickets[i].setTicketFieldValue(column[k], j, k);
                     }
                 }
             }
         }
-    }
-
-    public Ticket[] getTickets() {
-        return tickets;
     }
 }

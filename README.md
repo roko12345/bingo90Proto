@@ -3,7 +3,7 @@ Bingo 90 Stips creator
 
 **Algorithm Logic explained:**
 
-The algorithm is designed to work in three phases:
+The algorithm is designed to work as follows:
 1. Create a strip with all empty values (represented by zeros)
 2. Create a Hashmap which contains all 90 numbers which we need to insert. Key value pairs in the map will be:
      0 -> (1,...,9)
@@ -26,10 +26,11 @@ More detailed comments can be found in Strip.java class within the methods
 
 
 **Build project:** 
+Build jar and run unit tests:
 
 mvn clean install
 
-or build and skip the tests:
+or build jar and skip the tests:
 
 mvn clean install -DskipTests
 
