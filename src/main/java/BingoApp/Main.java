@@ -3,12 +3,15 @@ package BingoApp;
 import BingoApp.models.Row;
 import BingoApp.models.Ticket;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         // Checking the input command line args (should be integer)
         int numberOfStrips;
@@ -50,6 +53,7 @@ public class Main {
             }
         }
         out.flush();
+
 
         // End time measurement for Strips printing in the console
         long end2 = System.nanoTime();

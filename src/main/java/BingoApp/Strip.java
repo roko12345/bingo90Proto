@@ -1,5 +1,6 @@
 package BingoApp;
 
+import BingoApp.models.Row;
 import BingoApp.models.Ticket;
 
 import java.util.*;
@@ -9,7 +10,6 @@ import java.util.stream.IntStream;
 public class Strip {
     private Ticket[] tickets;
     private Map<Integer, List<Integer>> remainingNumbers;
-
 
     public Strip() {
         tickets = new Ticket[Utils.TICKETS_PER_STRIP];
@@ -23,6 +23,7 @@ public class Strip {
         sortStripColumnsAndFillTicket();
     }
 
+    // fill the map which contains all 90 numbers we need to place on the strip
     private void initialFillRemainingNumbersMap() {
         remainingNumbers = new LinkedHashMap<>();
         remainingNumbers.put(0, IntStream.rangeClosed(1, 9).boxed().collect(Collectors.toList()));
@@ -64,24 +65,26 @@ public class Strip {
     private void fillAllTicketsWithRemainingNumbers() {
         boolean rowOk = true;
 
-        // iterate through tickets from 1 to 6
+        // iterate through tickets from 1 to 6, and through rows on each ticket
         // if ticket row is not full, fill it with random numbers from remaining numbers map 
         for (int i = 0; i < Utils.TICKETS_PER_STRIP; i++) {
             for (int row = 0; row < Utils.ROWS_PER_TICKET; row++) {
 
+                // Tis part of the code will be invoked if the row was marked invalid (no more values in the map of remaining numbers
+                // eligible to put in the row)
                 if (rowOk == false) { // we returned one row back and try to remove values added to the columns in last iteration and
-                    // filling different row columns now
+                    // fill different row columns now
                     List<Integer> valuesFilledInPreviousTry = new ArrayList<>();
                     try {
                         valuesFilledInPreviousTry = tickets[i].getRows()[row].filledWithSecondIteration;
                     } catch (Exception e) {
                         // If we end up here, it means that i=-1 , and that the remaining number could not be fixed along the way even 
-                        // in the first ticket. We need to seed it from the begining and repeat the proccess.
+                        // in the first ticket. We need to seed it from the beginning and repeat the process.
                         createTheStripAgain();
                         return;
                     }
 
-                    // check if there is a free column where we can put one of remamining map values after we remove "lastFilledElement" from the row
+                    // check if there is a free column where we can put one of remaining map values after we remove "lastFilledElement" from the row
                     boolean freeColumnExists = false;
                     List<Integer> remainingRowPositions = tickets[i].freePositionsInRow(row);
                     for (Integer rowPosition : remainingRowPositions) {
@@ -92,7 +95,7 @@ public class Strip {
                     }
 
                     if (valuesFilledInPreviousTry.isEmpty() || !freeColumnExists) {
-                        if (row == 0) { // first row in the ticket is fucked, go back to last row on predccessor ticket
+                        if (row == 0) { // first row in the ticket is fucked, go back to last row on predecessor ticket
                             i = i - 2;
                             row = 2;
                             rowOk = false;
@@ -106,8 +109,7 @@ public class Strip {
                     for (Integer rowPosition : remainingRowPositions) {
                         if (!remainingNumbers.get(rowPosition).isEmpty()) {
                             // add one map number to empty column in this row. We will remove "lastFilledElement" from the row and add it to the map
-                            //tickets[i].getRows()[row].getRowFields()[rowPosition] = remainingNumbers.get(rowPosition).get(0);
-                            tickets[i].setTicketFieldValue(remainingNumbers.get(rowPosition).get(0),rowPosition,row);
+                            tickets[i].setTicketFieldValue(remainingNumbers.get(rowPosition).get(0), rowPosition, row);
                             remainingNumbers.get(rowPosition).remove(0);
                             break;
                         }
@@ -136,7 +138,7 @@ public class Strip {
 
                     fillOneOfTheRemainingRowPositions(tickets[i], remainingRowPositions, row);
                     if (remainingRowPositions.isEmpty()) {
-                        if (row == 0) { // first row in the ticket is fucked, go back to last row on predccessor ticket
+                        if (row == 0) { // first row in the ticket is fucked, go back to last row on predecessor ticket
                             i = i - 2;
                             row = 2;
                             rowOk = false;
@@ -155,8 +157,8 @@ public class Strip {
     // fill one of the free positions in the row from the Map containing all remaining values
     private void fillOneOfTheRemainingRowPositions(Ticket ticket, List<Integer> remainingRowPositions, int row) {
 
-        // If remainingRowPositions is null in currnet row, that means that none of the remaining numbers can be fit into that row.
-        // We fucked up earlier, so we backtrack the proccess and go one row back, try to change numbers used there
+        // If remainingRowPositions is null in current row, that means that none of the remaining numbers can be fit into that row.
+        // We fucked up earlier, so we backtrack the process and go one row back, try to change numbers used there
         if (remainingRowPositions.isEmpty()) {
             return;
         }
@@ -189,6 +191,7 @@ public class Strip {
         initialFillRemainingNumbersMap();
         fillAllColumnsEachTicketWithOneNumber();
         fillAllTicketsWithRemainingNumbers();
+        sortStripColumnsAndFillTicket();
     }
 
     public Ticket[] getSeededStrip() {
@@ -236,7 +239,7 @@ public class Strip {
 
                     // Restore element in Zeros position
                     column[positionOfZero] = last;
-                    
+
                     for (int k = 0; k < Utils.ROWS_PER_TICKET; k++) {
                         tickets[i].setTicketFieldValue(column[k], j, k);
                     }

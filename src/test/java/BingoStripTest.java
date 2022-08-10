@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class BingoStripTest {
 
     private Strip strip = new Strip();
+    private static int TEN_THOUSAND = 10000;
 
 
     @Test
@@ -99,7 +100,7 @@ public class BingoStripTest {
 
     @Test
     public void tenThousandTimesCheckEveryRowHasExactlyFiveNumbersTest() {
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < TEN_THOUSAND; i++) {
             strip = new Strip();
             everyRowHasExactlyFiveNumbersTest();
         }
@@ -107,7 +108,7 @@ public class BingoStripTest {
 
     @Test
     public void tenThousandTimesNoEmptyColumnsTest() {
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < TEN_THOUSAND; i++) {
             strip = new Strip();
             noEmptyColumnsOnAnyTicketTest();
         }
@@ -115,7 +116,7 @@ public class BingoStripTest {
 
     @Test
     public void tenThousandTimescheckAllRulesToTicketValidityTest() {
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < TEN_THOUSAND; i++) {
             strip = new Strip();
             checkAllRulesToTicketValidityTest();
         }

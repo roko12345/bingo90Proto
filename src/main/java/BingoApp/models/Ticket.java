@@ -47,7 +47,7 @@ public class Ticket {
 
     // Row is full if there are 4 zeros left in it
     public boolean isRowFull(int rowNumber) {
-        return new ArrayList<>(Arrays.asList(rows[rowNumber].getRowFields())).stream().filter(r -> (r == 0)).count() <= 4;
+        return new ArrayList<>(Arrays.asList(rows[rowNumber].getRowFields())).stream().filter(r -> (r == 0)).count() == 4;
     }
 
     // free positions in column are those with value 0
